@@ -30,7 +30,7 @@ export default function PetDetails() {
       <View className="absolute w-screen bottom-0">
         <TouchableOpacity className="p-4 bg-btn-orange">
           <Text className="text-center font-general-sans-semibold text-[18px]">
-            Adopt
+            Enquire
           </Text>
         </TouchableOpacity>
       </View>

@@ -138,16 +138,18 @@ export default function AddNewPet() {
   //
   const SaveFormData = async (ImageUrl) => {
     const docID = Date.now().toString();
+    const date = new Date();
     await setDoc(doc(db, "pet", docID), {
       ...formData,
       imageURL: ImageUrl,
+      time: date.toString(),
       userName: user?.firstName,
       email: user?.primaryEmailAddress?.emailAddress,
       userImage: user?.imageUrl,
       id: docID,
     });
     setLoader(false);
-    router.replace("/(tabs)/home");
+    router.replace("/(tabs)/adopt");
   };
   return (
     <ScrollView className="m-5 " showsVerticalScrollIndicator={false}>

@@ -210,6 +210,20 @@ export default function AddNewAnim() {
       <View className="mt-5">
         <Text className="text-[15px] font-general-sans-medium">Level*</Text>
         {/* //add level here */}
+        <View className="p-2">
+          <Text className="text-smoke font-general-sans-medium mb-2">
+            • High Risk: For dogs in immediate danger needing urgent medical
+            attention or rescue.
+          </Text>
+          <Text className="text-smoke font-general-sans-medium mb-2">
+            • Medium Risk: For dogs with moderate issues needing timely
+            intervention to prevent escalation.
+          </Text>
+          <Text className="text-smoke font-general-sans-medium mb-2">
+            • Low Risk: For dogs that are generally safe but need ongoing care
+            or a stable adoption home.
+          </Text>
+        </View>
         <MultiButton
           data={["High", "Medium", "Low"]}
           onSelect={(value) => handleChange("level", value)}

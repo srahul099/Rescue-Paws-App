@@ -1,6 +1,6 @@
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
 import Levels from "./Levels";
 import AnimListItem from "./AnimListItem";

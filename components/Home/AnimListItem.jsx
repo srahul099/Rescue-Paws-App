@@ -48,6 +48,9 @@ export default function AnimListItem({ anim }) {
           <Text className="font-general-sans-semibold text-[20px] text-ellipsis">
             {anim.breed}
           </Text>
+          <Text className="font-general-sans-semibold text-smoke text-sm break-words">
+            {anim.sex}
+          </Text>
         </View>
         <View
           className={`flex flex-row justify-center items-center p-1.5 rounded-lg w-1/2 ${getBackgroundColorClass(
@@ -64,11 +67,13 @@ export default function AnimListItem({ anim }) {
           </Text>
         </View>
       </View>
-      <View className="flex flex-row items-center justify-start py-2">
-        <FontAwesomeIcon icon={faClock} color="#808080" size={"10px"} />
-        <Text className="font-general-sans-medium text-smoke ml-1 text-sm">
-          Posted {timeDifference}
-        </Text>
+      <View className="absolute top-6 right-6 rounded-md px-2 py-1 bg-platinum">
+        <View className="flex flex-row items-center justify-end ">
+          <FontAwesomeIcon icon={faClock} color="#808080" size={"12px"} />
+          <Text className="font-general-sans-medium  text-smoke ml-1 text-sm">
+            Posted {timeDifference}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
