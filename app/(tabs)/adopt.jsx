@@ -6,10 +6,11 @@ import PetListByCategory from "../../components/Adopt/PetListByCategory";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigation } from "expo-router";
 import { SignedIn } from "@clerk/clerk-react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Adopt() {
   return (
-    <View className="p-[20px] mt-[20px] flex-1">
+    <SafeAreaView className="px-[20px] flex-1">
       <SignedIn>
         <Header />
         <PetListByCategory />
@@ -20,6 +21,6 @@ export default function Adopt() {
           <FontAwesomeIcon icon={faPlus} color="white" size={"24px"} />
         </Link>
       </SignedIn>
-    </View>
+    </SafeAreaView>
   );
 }

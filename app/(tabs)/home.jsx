@@ -5,10 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigation } from "expo-router";
 import ListByLevels from "../../components/Home/ListByLevels";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   return (
-    <View className="p-[20px] mt-[20px] flex-1">
+    <SafeAreaView className="px-[20px] flex-1">
       <Header />
       <ListByLevels />
       <Link
@@ -17,6 +18,6 @@ export default function Home() {
       >
         <FontAwesomeIcon icon={faPlus} color="white" size={"24px"} />
       </Link>
-    </View>
+    </SafeAreaView>
   );
 }

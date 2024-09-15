@@ -4,6 +4,7 @@ import { faPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Redirect, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function profile() {
   const { user } = useUser();
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function profile() {
     return router.push(menu.path);
   };
   return (
-    <View className="p-7 mt-7">
+    <SafeAreaView className="px-[20px]">
       <Text className="font-general-sans-semibold text-3xl">Profile</Text>
       <View className="flex flex-col justify-center items-center mx-[20px] my-[50px]">
         <Image
@@ -64,6 +65,6 @@ export default function profile() {
           className="mt-5 w-full"
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
