@@ -19,4 +19,6 @@ web-build/
 
 expo-env.d.ts
 .env
+config/
+FirebaseConfig.js
 # @end expo-cli
