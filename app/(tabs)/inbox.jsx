@@ -44,7 +44,7 @@ export default function inbox() {
   };
   return (
     <SafeAreaView className="px-[20px]">
-      <Text className="font-general-sans-semibold text-2xl ">Inbox</Text>
+      <Text className="font-general-sans-semibold text-2xl mb-4">Inbox</Text>
       <FlatList
         data={MapOtherUserList()}
         refreshing={loader}

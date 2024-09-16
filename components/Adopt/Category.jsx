@@ -18,7 +18,7 @@ export default function Category({ category }) {
   };
   return (
     <View>
-      <Text className="font-general-sans-medium text-[20px] mt-5 mb-1">
+      <Text className="font-general-sans-medium text-[20px] mt-2 mb-1">
         Category
       </Text>
 

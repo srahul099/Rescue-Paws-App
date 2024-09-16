@@ -1,4 +1,10 @@
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import {
@@ -7,12 +13,13 @@ import {
   doc,
   getDoc,
   onSnapshot,
+  orderBy,
+  query,
 } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
 import { useUser } from "@clerk/clerk-react";
-import { GiftedChat } from "react-native-gifted-chat";
+import { GiftedChat, Send } from "react-native-gifted-chat";
 import moment from "moment/moment";
-
 export default function ChatScreen() {
   const params = useLocalSearchParams();
   const [messages, setMessages] = useState([]);
@@ -22,7 +29,10 @@ export default function ChatScreen() {
   useEffect(() => {
     GetUserDetails();
     const unSubscribe = onSnapshot(
-      collection(db, "chat", params?.id, "Messages"),
+      query(
+        collection(db, "chat", params?.id, "Messages"),
+        orderBy("createdAt", "desc")
+      ),
       (snapshot) => {
         const messageData = snapshot.docs.map((doc) => ({
           _id: doc.id,
@@ -48,23 +58,29 @@ export default function ChatScreen() {
   };
 
   const onSend = async (newMessage) => {
+    newMessage[0].createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
     console.log(newMessage);
     setMessages((previousMessage) =>
       GiftedChat.append(previousMessage, newMessage)
     );
-    newMessage[0].createdAt = moment().format("MM-DD-YYYY HH:mm:ss");
     await addDoc(collection(db, "chat", params.id, "Messages"), newMessage[0]);
   };
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      showUserAvatar={true}
-      user={{
-        _id: user?.primaryEmailAddress.emailAddress,
-        name: user?.fullName,
-        avatar: user?.imageUrl,
-      }}
-    />
+    <View className="flex-1 bg-light-orange">
+      <GiftedChat
+        messages={messages}
+        onSend={(messages) => onSend(messages)}
+        showUserAvatar={true}
+        alwaysShowSend
+        forceGetKeyboardHeight={
+          Platform.OS === "android" && Platform.Version < 21
+        }
+        user={{
+          _id: user?.primaryEmailAddress.emailAddress,
+          name: user?.fullName,
+          avatar: user?.imageUrl,
+        }}
+      />
+    </View>
   );
 }

@@ -12,6 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#FF8D08"
     },
+    "androidStatusBar": {
+      "translucent": true
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rawull.Paws"
@@ -21,9 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.rawull.Paws"
     },
     "web": {
@@ -36,7 +37,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "The app accesses your photos to let you share to other well wishers."
         }
       ],
       "expo-font"

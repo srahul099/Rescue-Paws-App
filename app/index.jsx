@@ -7,7 +7,7 @@ export default function App() {
   const { user } = useUser();
   const rootNavigationState = useRootNavigationState();
   const CheckNavLoaded = () => {
-    if (!rootNavigationState.key) return null;
+    if (!rootNavigationState || !rootNavigationState.key) return null;
   };
   useEffect(() => {
     CheckNavLoaded();
