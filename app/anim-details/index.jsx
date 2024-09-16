@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight, faMapPin } from "@fortawesome/free-solid-svg-icons";
 import * as Linking from "expo-linking";
 import AnimSubInfo from "../../components/Home/AnimSubInfo";
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function AnimDetails() {
   const anim = useLocalSearchParams();
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ export default function AnimDetails() {
     Linking.openURL(url);
   };
   return (
-    <View className="h-full">
+    <SafeAreaView className="h-full">
       <ScrollView className="mb-[55px]" showsVerticalScrollIndicator={false}>
         <AnimInfo anim={anim} />
         <AnimSubInfo anim={anim} />
@@ -44,6 +45,6 @@ export default function AnimDetails() {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -27,7 +27,7 @@ export default function PetListByCategory() {
     setLoader(false);
   };
   return (
-    <View>
+    <View className="mt-1">
       <Category
         category={(value) => {
           setCategory(value);
