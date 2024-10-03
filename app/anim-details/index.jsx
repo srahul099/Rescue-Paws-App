@@ -4,8 +4,9 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  StatusBar,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import AnimInfo from "../../components/Home/AnimInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -13,12 +14,14 @@ import { faChevronRight, faMapPin } from "@fortawesome/free-solid-svg-icons";
 import * as Linking from "expo-linking";
 import AnimSubInfo from "../../components/Home/AnimSubInfo";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ActionSuggest from "../../components/Ai-Action-suggest/ActionSuggest";
 export default function AnimDetails() {
   const anim = useLocalSearchParams();
   const navigation = useNavigation();
+  const scrollViewRef = useRef(null);
   useEffect(() => {
     navigation.setOptions({
-      // headerTransparent: true,
+      headerTransparent: false,
       headerTitle: anim.breed,
     });
   }, [navigation]);
@@ -27,14 +30,24 @@ export default function AnimDetails() {
       ios: `maps:0,0?q=${anim?.latitude},${anim?.longitude}`,
       android: `geo:0,0?q=${anim?.latitude},${anim?.longitude}`,
     });
-    // console.log(url);
     Linking.openURL(url);
   };
+  const handleScrollToEnd = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 1000);
+  };
   return (
-    <SafeAreaView className="h-full">
-      <ScrollView className="mb-[55px]" showsVerticalScrollIndicator={false}>
+    <View className="h-full">
+      <StatusBar backgroundColor={"#fff"} />
+      <ScrollView
+        ref={scrollViewRef}
+        className="mb-[55px]"
+        showsVerticalScrollIndicator={false}
+      >
         <AnimInfo anim={anim} />
         <AnimSubInfo anim={anim} />
+        <ActionSuggest data={anim} onSuggest={handleScrollToEnd} />
       </ScrollView>
       <View className="absolute w-screen bottom-0">
         <TouchableOpacity onPress={() => openMaps()}>
@@ -45,6 +58,6 @@ export default function AnimDetails() {
           </View>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

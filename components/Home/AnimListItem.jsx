@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Vibration } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { parseISO, differenceInDays, isToday, parse } from "date-fns";
@@ -30,6 +30,9 @@ export default function AnimListItem({ anim }) {
   console.log(date);
   return (
     <TouchableOpacity
+      onLongPress={() => {
+        Vibration.vibrate(100);
+      }}
       onPress={() => {
         router.push({
           pathname: "/anim-details",

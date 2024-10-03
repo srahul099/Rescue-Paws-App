@@ -1,6 +1,10 @@
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { faPlus, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBarsProgress,
+  faPlus,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Redirect, useRouter } from "expo-router";
@@ -12,12 +16,18 @@ export default function profile() {
   const menu = [
     {
       id: 1,
-      name: "Add New Pet",
+      name: "Add Pet for Adoption",
       icon: faPlus,
       path: "/add-new-pet",
     },
     {
       id: 2,
+      name: "Manage Posts",
+      icon: faBarsProgress,
+      path: "/manage-posts",
+    },
+    {
+      id: 3,
       name: "Logout",
       icon: faRightFromBracket,
       path: "logout",

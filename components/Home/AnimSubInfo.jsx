@@ -14,7 +14,7 @@ export default function AnimSubInfo({ anim }) {
       />
       <View className="mt-2">
         <Text className="font-general-sans-semibold text-lg">Description</Text>
-        <View className="mt-1 px-4 py-3 rounded-xl bg-platinum w-full">
+        <View className="mt-1 px-4 py-3 rounded-xl bg-platinum w-full font-general-sans">
           <Text>{anim?.description}</Text>
         </View>
       </View>

@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useNavigation } from "expo-router";
@@ -47,11 +48,9 @@ export default function ChatScreen() {
     const docRef = doc(db, "chat", params?.id);
     const docSnap = await getDoc(docRef);
     const result = docSnap.data();
-    console.log(result);
     const user2 = result?.users.filter(
       (item) => item.email != user?.primaryEmailAddress.emailAddress
     );
-    console.log(user2);
     navigation.setOptions({
       headerTitle: user2[0].name,
     });
@@ -59,7 +58,7 @@ export default function ChatScreen() {
 
   const onSend = async (newMessage) => {
     newMessage[0].createdAt = moment().format("YYYY-MM-DD HH:mm:ss");
-    console.log(newMessage);
+
     setMessages((previousMessage) =>
       GiftedChat.append(previousMessage, newMessage)
     );
@@ -67,6 +66,7 @@ export default function ChatScreen() {
   };
   return (
     <View className="flex-1 bg-light-orange">
+      <StatusBar backgroundColor={"#fff"} />
       <GiftedChat
         messages={messages}
         onSend={(messages) => onSend(messages)}
