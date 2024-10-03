@@ -40,7 +40,7 @@ export default function ListByLevels() {
         renderItem={({ item, index }) => <AnimListItem anim={item} />}
         refreshing={loader}
         onRefresh={() => GetAnimList(level)}
-        className="mt-5 mb-[170px]"
+        className="mt-5 mb-[190px]"
       />
     </View>
   );

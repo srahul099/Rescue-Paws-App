@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, StatusBar, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { Redirect, useRootNavigationState } from "expo-router";
 import { useUser } from "@clerk/clerk-react";
@@ -15,6 +15,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar barStyle={"dark-content"} />
       {user ? <Redirect href={"/(tabs)/home"} /> : <Redirect href={"/login"} />}
     </SafeAreaProvider>
   );

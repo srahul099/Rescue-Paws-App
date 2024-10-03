@@ -24,7 +24,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.rawull.Paws"
     },
     "web": {
@@ -52,6 +54,12 @@
       "eas": {
         "projectId": "b21f7f6b-64a9-4ff2-bc6c-648b6bd1ddf7"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b21f7f6b-64a9-4ff2-bc6c-648b6bd1ddf7"
     }
   }
 }

@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Button, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Button,
+  Pressable,
+  StatusBar,
+} from "react-native";
 import React, { useEffect } from "react";
 import Header from "../../components/Adopt/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -10,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Home() {
   return (
     <SafeAreaView className="px-[20px] flex-1">
+      <StatusBar backgroundColor={"#F2F2F2"} barStyle={"dark-content"} />
       <Header />
       <ListByLevels />
       <Link
