@@ -21,20 +21,16 @@ export default function ActionSuggest({ data, onSuggest }) {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const typingIndex = useSharedValue(0);
-  const spinValue = useSharedValue(0);
-
   const fetchChatCompletion = async () => {
     try {
       setError(null);
       setChatCompletion(null);
       setLoading(true);
 
-      // Initialize Groq client
       const groq = new Groq({
-        apiKey: process.env.EXPO_PUBLIC_GROQ_API_KEY, // Ensure the key is correct
+        apiKey: process.env.EXPO_PUBLIC_GROQ_API_KEY,
       });
 
-      // Make the request using groq-sdk
       const chatCompletion = await groq.chat.completions.create({
         messages: [
           {
@@ -56,18 +52,15 @@ export default function ActionSuggest({ data, onSuggest }) {
       });
 
       const completionText = chatCompletion.choices[0]?.message?.content || "";
-      console.log("Completion Response:", completionText);
       const parsedCompletion = JSON.parse(completionText);
       setChatCompletion(parsedCompletion);
       setDisabled(true);
-      console.log("Completion Response:", completionText);
       typingIndex.value = 1;
       setTimeout(() => {
         setLoading(false);
       }, 1000);
       onSuggest();
     } catch (error) {
-      console.error("Error during fetch:", error);
       setError(error.message || "Something went wrong");
     }
   };

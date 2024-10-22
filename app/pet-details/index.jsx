@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+  Button,
+} from "react-native";
 import React, { useEffect } from "react";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import PetInfo from "../../components/PetDetails/PetInfo";
@@ -14,22 +21,39 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PetDetails() {
   const pet = useLocalSearchParams();
   const navigation = useNavigation();
   const { user } = useUser();
   const router = useRouter();
+  const currentuser =
+    pet.email == user.primaryEmailAddress.emailAddress ? true : false;
   useEffect(() => {
     navigation.setOptions({
       headerTransparent: true,
       headerTitle: "",
+      headerRight: () => (
+        <>
+          {currentuser ? (
+            <TouchableOpacity
+              onPress={() => handleManagepost()}
+              className="px-2 py-3 bg-btn-orange rounded-xl"
+            >
+              <Text className="font-general-sans-semibold text-white">
+                Manage Posts
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+        </>
+      ),
     });
   }, [navigation]);
 
+  const handleManagepost = () => {
+    router.replace("/manage-posts");
+  };
   const InitiateChat = async () => {
-    console.log(user?.primaryEmailAddress?.emailAddress);
     const docID1 = user?.primaryEmailAddress?.emailAddress + "_" + pet?.email;
     const docID2 = pet?.email + "_" + user?.primaryEmailAddress?.emailAddress;
 
@@ -44,7 +68,6 @@ export default function PetDetails() {
         params: { id: doc.id },
       });
     });
-    console.log(docID1);
     if (querySnapshot.docs?.length == 0) {
       await setDoc(doc(db, "chat", docID1), {
         id: docID1,
@@ -69,19 +92,28 @@ export default function PetDetails() {
     }
   };
   return (
-    <SafeAreaView>
-      <ScrollView className="mb-[55px]" showsVerticalScrollIndicator={false}>
+    <View>
+      <StatusBar backgroundColor="transparent" barStyle={"dark-content"} />
+      <ScrollView
+        className={`${currentuser ? "mb-0" : "mb-[55px]"}`}
+        showsVerticalScrollIndicator={false}
+      >
         <PetInfo pet={pet} />
         <PetSubInfo pet={pet} />
         <AboutPet pet={pet} />
       </ScrollView>
       <View className="absolute w-screen bottom-0">
-        <TouchableOpacity className="p-4 bg-btn-orange" onPress={InitiateChat}>
-          <Text className="text-center font-general-sans-semibold text-[18px]">
-            Enquire
-          </Text>
-        </TouchableOpacity>
+        {currentuser ? null : (
+          <TouchableOpacity
+            className="p-4 bg-btn-orange"
+            onPress={InitiateChat}
+          >
+            <Text className="text-center font-general-sans-semibold text-[18px]">
+              Enquire
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

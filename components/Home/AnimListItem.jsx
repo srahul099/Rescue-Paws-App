@@ -20,14 +20,12 @@ export default function AnimListItem({ anim }) {
       case "Low":
         return "bg-btn-green";
       default:
-        return "bg-gray-300"; // Default background color if level is not recognized
+        return "bg-gray-300";
     }
   };
 
   const timeDifference = moment(anim?.time).fromNow();
 
-  const date = new Date();
-  console.log(date);
   return (
     <TouchableOpacity
       onLongPress={() => {
@@ -38,7 +36,6 @@ export default function AnimListItem({ anim }) {
           pathname: "/anim-details",
           params: anim,
         });
-        console.log(anim);
       }}
       className="bg-white rounded-2xl px-4 py-4 mb-3 pb-2"
     >
