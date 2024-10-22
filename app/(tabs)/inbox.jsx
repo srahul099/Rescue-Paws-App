@@ -44,11 +44,20 @@ export default function inbox() {
   };
   return (
     <SafeAreaView className="px-[20px]">
-      <Text className="font-general-sans-semibold text-2xl mb-4">Inbox</Text>
+      <Text className="font-general-sans-semibold text-2xl mb-3 mt-2">
+        Inbox
+      </Text>
       <FlatList
         data={MapOtherUserList()}
         refreshing={loader}
         onRefresh={() => GetUserList()}
+        ListEmptyComponent={
+          !loader && (
+            <Text className="text-2xl text-smoke font-general-sans-semibold text-center mt-2">
+              You dont have any messages.
+            </Text>
+          )
+        }
         renderItem={({ item, index }) => (
           <View className="mt-1 w-full">
             <UserItem userInfo={item} key={index} />

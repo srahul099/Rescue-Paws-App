@@ -18,8 +18,8 @@ export default function Category({ category }) {
   };
   return (
     <View>
-      <Text className="font-general-sans-medium text-[20px] mt-2 mb-1">
-        Category
+      <Text className="font-general-sans-semibold text-2xl mt-2 mb-1">
+        Adopt
       </Text>
 
       <FlatList

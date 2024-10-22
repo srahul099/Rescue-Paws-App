@@ -1,7 +1,13 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../config/FirebaseConfig";
 import { useUser } from "@clerk/clerk-react";
 import ListItem from "../../components/Manage-Posts/ListItem";
@@ -42,6 +48,7 @@ export default function index() {
   };
   return (
     <View className="mx-5 my-4">
+      <StatusBar backgroundColor={"white"} barStyle={"dark-content"} />
       <View>
         <FlatList
           data={btnData}
@@ -71,7 +78,19 @@ export default function index() {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={list}
-          renderItem={({ item, index }) => <ListItem anim={item} />}
+          renderItem={({ item, index }) => (
+            <ListItem
+              anim={item}
+              dbname={
+                btnData[btnData.findIndex((x) => x.name == choice)].dbname
+              }
+              refereshData={() =>
+                GetList(
+                  btnData[btnData.findIndex((x) => x.name == choice)].dbname
+                )
+              }
+            />
+          )}
           refreshing={loader}
           onRefresh={() =>
             GetList(btnData[btnData.findIndex((x) => x.name == choice)].dbname)

@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <ClerkLoaded>
       <SignedIn>
-        <View className="flex flex-row justify-between items-center">
+        <View className="flex flex-row justify-between items-center mt-1">
           <View className="flex flex-col">
             <Text className="font-general-sans-medium text-lg text-grey">
               Welcome,

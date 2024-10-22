@@ -19,6 +19,8 @@ import * as ImagePicker from "expo-image-picker";
 import AddLocation from "../../components/PetDetails/AddLocation";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/clerk-react";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddNewPet() {
   const navigation = useNavigation();
@@ -31,6 +33,7 @@ export default function AddNewPet() {
     sex: "",
     vaccine: "",
     about: "",
+    status: false,
   });
   const [categoryList, setCategoryList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -104,7 +107,7 @@ export default function AddNewPet() {
   const onSubmit = () => {
     const formDataValues = Object.values(formData);
     const allFieldsFilled =
-      formDataValues.length === 8 &&
+      formDataValues.length == 9 &&
       formDataValues.every((value) => value !== "");
 
     if (!allFieldsFilled) {
@@ -173,6 +176,7 @@ export default function AddNewPet() {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
+        statusBarTranslucent={true}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
@@ -181,27 +185,36 @@ export default function AddNewPet() {
           style={{
             flex: 1,
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-end",
             backgroundColor: "rgba(0, 0, 0, 0.25)",
           }}
         >
-          <View className=" px-7 py-6 bg-white items-center w-[80%] rounded-3xl mx-10">
-            <Text className="font-general-sans-medium">Choose a source</Text>
+          <View className=" px-5 py-5 bg-white w-[90%] h-fit justify-between rounded-3xl mb-5">
+            <View className="flex flex-row items-center justify-start mb-5">
+              <FontAwesomeIcon icon={faImage} size={"25px"} />
+              <Text className="font-general-sans-bold text-left text-2xl  ml-2">
+                Upload a Photo
+              </Text>
+            </View>
+            <Text className="font-general-sans-medium text-left text-[17px] mb-5">
+              Would you like to upload a photo using your camera or select one
+              from your gallery?
+            </Text>
             <TouchableOpacity
               onPress={launchCamera}
-              className="p-3 bg-light-orange rounded-t-xl mt-3 w-full items-center"
+              className="p-4 bg-light-orange rounded-t-xl mt-3 w-full items-center"
             >
               <Text className="font-general-sans-medium">Camera</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={launchMediaLibrary}
-              className="p-3 bg-light-orange mt-1 w-full items-center"
+              className="p-4 bg-light-orange mt-1 w-full items-center"
             >
               <Text className="font-general-sans-medium">Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setModalVisible(!modalVisible)}
-              className="p-3 bg-light-orange rounded-b-xl mt-1 w-full items-center"
+              className="p-4 bg-light-orange rounded-b-xl mt-1 w-full items-center"
             >
               <Text className="font-general-sans-medium">Cancel</Text>
             </TouchableOpacity>

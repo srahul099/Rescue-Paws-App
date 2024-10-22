@@ -52,15 +52,15 @@ export default function LoginScreen() {
           Help rescue, adopt, and give stray dogs a loving home. Be the change
           they need.
         </Text>
-        <Pressable
-          onPress={onPress}
-          className="mt-20 p-[20px] bg-btn-orange rounded-xl"
-        >
-          <Text className="text-center text-white font-general-sans-semibold text-[18px]">
-            Get Started
-          </Text>
-        </Pressable>
       </View>
+      <Pressable
+        onPress={onPress}
+        className="p-[20px] bg-btn-orange rounded-xl absolute bottom-6 left-8 right-8"
+      >
+        <Text className="text-center text-white font-general-sans-semibold text-[18px]">
+          Get Started
+        </Text>
+      </Pressable>
     </View>
   );
 }

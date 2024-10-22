@@ -20,13 +20,12 @@ export default function PetListItem({ pet }) {
           pathname: "/pet-details",
           params: pet,
         });
-        console.log(pet);
       }}
-      className="bg-white rounded-3xl px-4 py-5 mb-3"
+      className="bg-white rounded-3xl px-4 py-4 mb-3"
     >
       <Image
         source={{ uri: pet?.imageURL }}
-        className="h-[250px] object-cover rounded-t-xl"
+        className="h-[250px] object-cover rounded-xl rounded-b-sm"
       />
       <View className="flex flex-row justify-between items-center  mt-2">
         <View className="flex flex-col">

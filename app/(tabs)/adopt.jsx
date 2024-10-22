@@ -12,7 +12,6 @@ export default function Adopt() {
   return (
     <SafeAreaView className="px-[20px] flex-1">
       <SignedIn>
-        <Header />
         <PetListByCategory />
         <Link
           href="/add-new-pet"
