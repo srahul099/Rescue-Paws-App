@@ -52,7 +52,7 @@ export default function AnimInfo({ anim }) {
         <View className="flex flex-row bg-white rounded-3xl items-center">
           <View className="px-3 ">
             <Text className="text-xs font-general-sans-medium text-smoke">
-              Poster By:
+              Posted By:
             </Text>
             <Text className="text-sm font-general-sans-medium">
               {anim?.userName}

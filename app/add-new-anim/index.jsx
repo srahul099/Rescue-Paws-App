@@ -95,7 +95,7 @@ export default function AddNewAnim() {
     const formDataValues = Object.values(formData);
     console.log(formDataValues);
     const allFieldsFilled =
-      formDataValues.length === 7 &&
+      formDataValues.length === 8 &&
       formDataValues.every((value) => value !== "");
 
     if (!allFieldsFilled) {
@@ -135,8 +135,37 @@ export default function AddNewAnim() {
       id: docID,
     });
     setLoader(false);
+    ToastAndroid.show("Added Successfully", ToastAndroid.SHORT);
+    // add send notification here
+    sendNotification(formData);
     router.replace("/(tabs)/home");
   };
+
+  const sendNotification = async (petData) => {
+    try {
+      const response = await fetch(
+        "https://rescuepawsbackendserver.onrender.com/sendNotification",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "New Injured Animal",
+            body: `${petData.breed} is in need of care. Location: (${petData.latitude}, ${petData.longitude})`,
+            topic: "allUsers",
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to send notification");
+      }
+      console.log("Notification sent successfully");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+    }
+  };
+
   return (
     <ScrollView className="m-5 " showsVerticalScrollIndicator={false}>
       <Text className="font-general-sans-semibold text-lg">

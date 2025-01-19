@@ -1,6 +1,7 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ClerkLoaded, SignedIn, useUser } from "@clerk/clerk-react";
+import { router } from "expo-router";
 
 export default function Header() {
   const { user } = useUser();
@@ -15,6 +16,33 @@ export default function Header() {
       setUserName(user.firstName);
     }
   }, [user]);
+  // const sendNotification = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://rescuepawsbackendserver.onrender.com/sendNotification",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           title: "New Injured Animal",
+  //           body: `Pet is in need of care.`,
+  //           topic: "allUsers",
+  //         }),
+  //       }
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error("Failed to send notification");
+  //     }
+  //     console.log("Notification sent successfully");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //   }
+  // };
+  // const handlePress = async () => {
+  //   sendNotification();
+  // };
   return (
     <ClerkLoaded>
       <SignedIn>
@@ -32,6 +60,7 @@ export default function Header() {
             className="w-[40px] h-[40px] rounded-3xl"
           />
         </View>
+        {/* <Button title="Notifications bruda" onPress={handlePress} /> */}
       </SignedIn>
     </ClerkLoaded>
   );

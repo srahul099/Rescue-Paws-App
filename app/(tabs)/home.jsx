@@ -1,20 +1,15 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Button,
-  Pressable,
-  StatusBar,
-} from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "../../components/Adopt/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigation } from "expo-router";
+import { Link } from "expo-router";
 import ListByLevels from "../../components/Home/ListByLevels";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
+import { usePushNotifications } from "../../services/PushNotification";
 
 export default function Home() {
+  usePushNotifications();
   return (
     <SafeAreaView className="px-[20px] flex-1">
       <StatusBar backgroundColor={"#F2F2F2"} barStyle={"dark-content"} />

@@ -1,14 +1,17 @@
-import { Pressable, StatusBar, Text, View } from "react-native";
+// app/index.jsx
 import React, { useEffect } from "react";
-import { Redirect, useRootNavigationState } from "expo-router";
 import { useUser } from "@clerk/clerk-react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Redirect, useRootNavigationState } from "expo-router";
+import { StatusBar } from "react-native";
+
 export default function App() {
   const { user } = useUser();
   const rootNavigationState = useRootNavigationState();
   const CheckNavLoaded = () => {
     if (!rootNavigationState || !rootNavigationState.key) return null;
   };
+
   useEffect(() => {
     CheckNavLoaded();
   }, [rootNavigationState]);
