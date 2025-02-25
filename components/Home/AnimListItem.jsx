@@ -1,16 +1,42 @@
-import { View, Text, TouchableOpacity, Image, Vibration } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Vibration,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { parseISO, differenceInDays, isToday, parse } from "date-fns";
 import {
   faClock,
+  faMapPin,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { router } from "expo-router";
 import moment from "moment/moment";
+import fetchLocationDetails from "../../services/ReverseLocation";
 
 export default function AnimListItem({ anim }) {
+  const [location, setLocation] = useState("");
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    const fetchLocation = async () => {
+      setLoader(true);
+      const result = await fetchLocationDetails(anim.latitude, anim.longitude);
+      if (result && result.results && result.results.length > 0) {
+        const { city, country } = result.results[0];
+        setLocation({ city, country });
+      }
+      setLoader(false);
+    };
+
+    if (anim.latitude && anim.longitude) {
+      fetchLocation();
+    }
+  }, [anim.latitude, anim.longitude]);
   const getBackgroundColorClass = (level) => {
     switch (level) {
       case "High":
@@ -43,7 +69,7 @@ export default function AnimListItem({ anim }) {
         source={{ uri: anim?.imageURL }}
         className="h-[200px] object-cover rounded-t-lg mb-2"
       />
-      <View className="flex-1 flex-row justify-between items-center">
+      <View className="flex-1 flex-row justify-between items-end">
         <View className="flex-1 justify-center items-start overflow-hidden w-[50%]">
           <Text className="font-general-sans-semibold text-[20px] text-ellipsis">
             {anim.breed}
@@ -52,8 +78,27 @@ export default function AnimListItem({ anim }) {
             {anim.sex}
           </Text>
         </View>
+        <View className="flex-1 flex-col justify-between items-end">
+          <View className="flex flex-row items-center justify-end mb-1 bg-platinum px-1.5 rounded-lg">
+            <FontAwesomeIcon icon={faMapPin} color="#808080" size={"12px"} />
+            {location.city && location.country && (
+              <Text className="font-general-sans-medium text-smoke text-sm break-words ml-1">
+                {location.city}
+              </Text>
+            )}
+          </View>
+          <View className="flex flex-row items-center justify-end ">
+            <FontAwesomeIcon icon={faClock} color="#808080" size={"10px"} />
+            <Text className="font-general-sans-medium  text-smoke ml-1 text-xs">
+              Posted {timeDifference}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View className="absolute top-6 right-6 rounded-md ">
         <View
-          className={`flex flex-row justify-center items-center p-1.5 rounded-lg w-1/2 ${getBackgroundColorClass(
+          className={`flex flex-row justify-center items-center p-1.5 rounded-lg ${getBackgroundColorClass(
             anim.level
           )}`}
         >
@@ -62,17 +107,6 @@ export default function AnimListItem({ anim }) {
             size={"20px"}
             color="white"
           />
-          <Text className="font-general-sans-medium text-white text-sm ml-2 break-words">
-            {anim.tag}
-          </Text>
-        </View>
-      </View>
-      <View className="absolute top-6 right-6 rounded-md px-2 py-1 bg-platinum">
-        <View className="flex flex-row items-center justify-end ">
-          <FontAwesomeIcon icon={faClock} color="#808080" size={"12px"} />
-          <Text className="font-general-sans-medium  text-smoke ml-1 text-sm">
-            Posted {timeDifference}
-          </Text>
         </View>
       </View>
     </TouchableOpacity>

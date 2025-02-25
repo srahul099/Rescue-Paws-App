@@ -17,4 +17,6 @@ package-lock.json
 /android
 .vscode
 expo-env.d.ts
+google-services.json
+.env
 # @end expo-cli

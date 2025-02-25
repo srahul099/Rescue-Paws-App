@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, Platform } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   faChevronRight,
   faMapPin,
@@ -7,7 +7,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as Linking from "expo-linking";
+import fetchLocationDetails from "../../services/ReverseLocation";
 export default function PetInfo({ pet }) {
+  const [location, setLocation] = useState("");
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const result = await fetchLocationDetails(pet.latitude, pet.longitude);
+      if (result && result.results && result.results.length > 0) {
+        const { city, country } = result.results[0];
+        setLocation({ city, country });
+      }
+    };
+
+    if (pet.latitude && pet.longitude) {
+      fetchLocation();
+    }
+  }, [pet.latitude, pet.longitude]);
   const openMaps = () => {
     const url = Platform.select({
       ios: `maps:0,0?q=${pet?.latitude},${pet?.longitude}`,
@@ -29,9 +44,15 @@ export default function PetInfo({ pet }) {
             {pet?.breed}
           </Text>
           <TouchableOpacity onPress={() => openMaps()} className="mt-1">
-            <View className="flex flex-row self-start items-center justify-center bg-platinum p-1 rounded-xl">
-              <FontAwesomeIcon icon={faMapPin} color="#808080" />
-              <Text className="text-[15px] text-smoke">Location</Text>
+            <View className="flex flex-row self-start items-center justify-evenly bg-platinum p-1 rounded-xl">
+              <FontAwesomeIcon icon={faMapPin} color="#808080" size={"15px"} />
+              <Text
+                className="text-[15px] text-smoke"
+                allowFontScaling={false}
+                allow
+              >
+                {location.city}
+              </Text>
               <FontAwesomeIcon icon={faChevronRight} color="#808080" />
             </View>
           </TouchableOpacity>

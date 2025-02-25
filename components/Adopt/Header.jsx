@@ -1,21 +1,23 @@
-import { View, Text, Image, Button } from "react-native";
+import { View, Text, Image, Button, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ClerkLoaded, SignedIn, useUser } from "@clerk/clerk-react";
-import { router } from "expo-router";
-
-export default function Header() {
-  const { user } = useUser();
-  const [imageUrl, setImageUrl] = useState(
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iconpacks.net%2Ffree-icon%2Fuser-3296.html&psig=AOvVaw08p3RKH1R9sXZC3s13cCae&ust=1724929848190000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOD6v8jGl4gDFQAAAAAdAAAAABAE"
-  );
-  const [userName, setUserName] = useState("user");
-  useEffect(() => {
-    console.log("User:", user);
-    if (user != null) {
-      setImageUrl(user.imageUrl);
-      setUserName(user.firstName);
-    }
-  }, [user]);
+import { Link, router } from "expo-router";
+import logo from "../../assets/images/icon.png";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+export default function Header({ type }) {
+  const header = {
+    rescue: {
+      title: "Report Injury",
+      color: "charcoal",
+      route: "/add-new-anim",
+    },
+    adopt: {
+      title: "List Pet",
+      color: "btn-orange",
+      route: "/add-new-pet",
+    },
+  };
   // const sendNotification = async () => {
   //   try {
   //     const response = await fetch(
@@ -40,28 +42,27 @@ export default function Header() {
   //     console.error("Error sending notification:", error);
   //   }
   // };
-  // const handlePress = async () => {
-  //   sendNotification();
-  // };
+  const handlePress = async () => {
+    router.push(header[type].route);
+  };
   return (
     <ClerkLoaded>
-      <SignedIn>
-        <View className="flex flex-row justify-between items-center mt-1">
-          <View className="flex flex-col">
-            <Text className="font-general-sans-medium text-lg text-grey">
-              Welcome,
-            </Text>
-            <Text className="font-general-sans-semibold text-2xl ">
-              {userName}
-            </Text>
-          </View>
-          <Image
-            source={{ uri: imageUrl }}
-            className="w-[40px] h-[40px] rounded-3xl"
-          />
+      <View className="flex-row justify-between items-center mt-5">
+        <View>
+          <Text className="font-general-sans-semibold text-[25px] color-[#FF8D08] ">
+            Rescue Paws
+          </Text>
         </View>
-        {/* <Button title="Notifications bruda" onPress={handlePress} /> */}
-      </SignedIn>
+        <TouchableOpacity
+          className={`flex-row items-center bg-${header[type].color} px-3 py-2 rounded-xl`}
+          onPress={() => handlePress()}
+        >
+          <Text className="font-general-sans-semibold text-white mr-2">
+            {header[type].title}
+          </Text>
+          <FontAwesomeIcon icon={faPlus} color="white" size={"20px"} />
+        </TouchableOpacity>
+      </View>
     </ClerkLoaded>
   );
 }

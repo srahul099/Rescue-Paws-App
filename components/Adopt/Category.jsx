@@ -11,17 +11,14 @@ export default function Category({ category }) {
     GetCategories();
   }, []);
   const GetCategories = async () => {
+    setCategoryList([]);
     const snapshot = await getDocs(collection(db, "category"));
     snapshot.forEach((doc) => {
       setCategoryList((categoryList) => [...categoryList, doc.data()]);
     });
   };
   return (
-    <View>
-      <Text className="font-general-sans-semibold text-2xl mt-2 mb-1">
-        Adopt
-      </Text>
-
+    <View className="mt-3">
       <FlatList
         data={categoryList}
         numColumns={2}
@@ -34,7 +31,7 @@ export default function Category({ category }) {
             }}
           >
             <View
-              className={`p-[12px] items-center mt-1 rounded-xl ${
+              className={`p-[12px] flex-row justify-evenly items-center mt-1 rounded-xl ${
                 selectedCategory == item.name ? "bg-btn-orange" : "bg-platinum"
               }`}
             >

@@ -3,6 +3,25 @@ import { useEffect } from "react";
 import { Alert, PermissionsAndroid, Platform } from "react-native";
 
 export const usePushNotifications = () => {
+  const createNotificationChannel = async () => {
+    if (Platform.OS === "android") {
+      try {
+        const channel = await messaging().android.createChannel({
+          id: "high_priority_channel",
+          name: "Rescue Paws Notifications",
+          description: "Notifications for Rescue Paws updates",
+          importance: messaging.AndroidImportance.HIGH,
+          sound: "default",
+          visibility: messaging.AndroidVisibility.PUBLIC,
+          vibration: true,
+          lightColor: "#FFA500",
+        });
+        console.log("Notification channel created:", channel);
+      } catch (error) {
+        console.error("Error creating notification channel:", error);
+      }
+    }
+  };
   const requestPermission = async () => {
     if (Platform.OS === "android" && Platform.Version >= 33) {
       const hasPermission = await PermissionsAndroid.check(
@@ -26,7 +45,10 @@ export const usePushNotifications = () => {
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-    if (!isAuthorized) {
+    if (isAuthorized) {
+      console.log("Push notification permissions granted.");
+      await createNotificationChannel(); // Create channel after permissions are granted
+    } else {
       console.warn("Push notification permissions are not granted.");
     }
     return isAuthorized;

@@ -55,7 +55,7 @@ export default function ListByLevels() {
           )
         }
         onRefresh={() => GetAnimList(level)}
-        className="mt-5 mb-[190px] w-full"
+        className="mt-5 mb-[120px] w-full"
       />
     </View>
   );

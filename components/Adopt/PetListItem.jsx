@@ -6,6 +6,7 @@ import {
   faCalendarDays,
   faClock,
   faMars,
+  faSyringe,
   faVenus,
 } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment/moment";
@@ -21,11 +22,11 @@ export default function PetListItem({ pet }) {
           params: pet,
         });
       }}
-      className="bg-white rounded-3xl px-4 py-4 mb-3"
+      className="bg-white rounded-3xl px-4 py-4 mb-3 pb-2"
     >
       <Image
         source={{ uri: pet?.imageURL }}
-        className="h-[250px] object-cover rounded-xl rounded-b-sm"
+        className="h-[200px] object-top rounded-xl rounded-b-sm"
       />
       <View className="flex flex-row justify-between items-center  mt-2">
         <View className="flex flex-col">
@@ -37,24 +38,33 @@ export default function PetListItem({ pet }) {
           </Text>
         </View>
 
-        <View className="flex items-end justify-start">
-          <Text
-            className={`font-general-sans-semibold px-2 py-1 rounded-xl self-end ${
-              pet.vaccine == "Vaccinated"
-                ? "text-green-500 bg-green-200"
-                : "text-red-500 bg-red-200"
+        <View className="flex items-end justify-evenly">
+          <View
+            className={`px-2 py-0.5 rounded-xl flex-row mb-2 justify-evenly items-center ${
+              pet.vaccine == "Vaccinated" ? "bg-green-200" : "bg-red-200"
             }`}
           >
-            {pet.vaccine}
-          </Text>
-        </View>
-      </View>
-      <View className="absolute top-7 right-6 rounded-md px-2 py-1 bg-platinum">
-        <View className="flex flex-row items-center justify-end ">
-          <FontAwesomeIcon icon={faClock} color="#808080" size={"12px"} />
-          <Text className="font-general-sans-medium  text-smoke ml-1 text-sm">
-            Posted {timeDifference}
-          </Text>
+            <FontAwesomeIcon
+              icon={faSyringe}
+              color={pet.vaccine == "Vaccinated" ? "green" : "red"}
+              size={"15px"}
+            />
+            <Text
+              className={`font-general-sans-semibold ml-1 ${
+                pet.vaccine == "Vaccinated"
+                  ? "text-green-500 bg-green-200"
+                  : "text-red-500 bg-red-200"
+              }`}
+            >
+              {pet.vaccine}
+            </Text>
+          </View>
+          <View className="flex flex-row items-center justify-end ">
+            <FontAwesomeIcon icon={faClock} color="#808080" size={"10px"} />
+            <Text className="font-general-sans-medium  text-smoke ml-1 text-xs">
+              Posted {timeDifference}
+            </Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>

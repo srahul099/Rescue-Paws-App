@@ -23,10 +23,7 @@ export default function Levels({ level }) {
     });
   };
   return (
-    <View>
-      <Text className="font-general-sans-medium text-[20px] mt-2 mb-1">
-        Rescue
-      </Text>
+    <View className="mt-5">
       <FlatList
         data={levellists}
         numColumns={3}
@@ -39,11 +36,11 @@ export default function Levels({ level }) {
             className={`flex-1 w-screen mr-2 ${index == 2 ? "mr-0" : ""}`}
           >
             <View
-              className={`p-[10px] items-center mt-1 rounded-xl ${
+              className={`p-[10px] items-center mt-1 rounded-xl flex-row justify-evenly ${
                 selectedlevel == item.level ? `bg-charcoal` : `bg-platinum`
               }`}
             >
-              <View className="p-3">
+              <View>
                 <FontAwesomeIcon
                   icon={faTriangleExclamation}
                   size={"30px"}

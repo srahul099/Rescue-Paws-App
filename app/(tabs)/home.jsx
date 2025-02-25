@@ -13,14 +13,14 @@ export default function Home() {
   return (
     <SafeAreaView className="px-[20px] flex-1">
       <StatusBar backgroundColor={"#F2F2F2"} barStyle={"dark-content"} />
-      <Header />
+      <Header type={"rescue"} />
       <ListByLevels />
-      <Link
+      {/* <Link
         href="/add-new-anim"
         className="absolute bottom-2 right-1 self-end p-6 bg-charcoal rounded-2xl mx-2"
       >
         <FontAwesomeIcon icon={faPlus} color="white" size={"24px"} />
-      </Link>
+      </Link> */}
     </SafeAreaView>
   );
 }

@@ -9,6 +9,7 @@ import {
   Modal,
   ToastAndroid,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { router, useNavigation } from "expo-router";
@@ -21,6 +22,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../config/FirebaseConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { fetchRiskAssesment } from "../../services/RiskAssesment";
 export default function AddNewAnim() {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,7 +37,23 @@ export default function AddNewAnim() {
     status: false,
   });
   const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [risk, setRisk] = useState(null);
+  const [error, setError] = useState(null);
+  const [riskReasoning, setRiskReasoning] = useState(null);
   const { user } = useUser();
+  const riskLvl = {
+    Low: "bg-green-500",
+    Moderate: "bg-yellow-500",
+    High: "bg-red-500",
+    null: "bg-platinum",
+    Unknown: "bg-red-100",
+  };
+  const riskTag = {
+    Low: "Safe but needs ongoing care",
+    Moderate: "Requires Timely Intervention",
+    High: "Needs Immediate Attention",
+  };
 
   const navigation = useNavigation();
   useEffect(() => {
@@ -152,7 +170,7 @@ export default function AddNewAnim() {
           },
           body: JSON.stringify({
             title: "New Injured Animal",
-            body: `${petData.breed} is in need of care. Location: (${petData.latitude}, ${petData.longitude})`,
+            body: `${petData.breed} is in need of care.`,
             topic: "allUsers",
           }),
         }
@@ -166,8 +184,30 @@ export default function AddNewAnim() {
     }
   };
 
+  const handleRiskAssesment = async () => {
+    setLoading(true);
+    setError(null);
+    setRisk(null);
+
+    try {
+      const riskAssesment = await fetchRiskAssesment(formData);
+      setRisk(riskAssesment.risk_level);
+      setRiskReasoning(riskAssesment.reasoning);
+      if (riskAssesment.error != null) {
+        setError(riskAssesment.error);
+      } else if (risk != "Unknown" || risk != null || risk != "") {
+        handleChange("level", risk);
+        handleChange("tag", riskTag[risk]);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <ScrollView className="m-5 " showsVerticalScrollIndicator={false}>
+      <StatusBar backgroundColor={"#fff"} />
       <Text className="font-general-sans-semibold text-lg">
         Enter Pet Information
       </Text>
@@ -185,7 +225,7 @@ export default function AddNewAnim() {
         )}
       </Pressable>
       <Modal
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
         statusBarTranslucent={true}
@@ -250,29 +290,6 @@ export default function AddNewAnim() {
         />
       </View>
       <View className="mt-5">
-        <Text className="text-[15px] font-general-sans-medium">Level*</Text>
-        {/* //add level here */}
-        <View className="p-2">
-          <Text className="text-smoke font-general-sans-medium mb-2">
-            • High Risk: For dogs in immediate danger needing urgent medical
-            attention or rescue.
-          </Text>
-          <Text className="text-smoke font-general-sans-medium mb-2">
-            • Medium Risk: For dogs with moderate issues needing timely
-            intervention to prevent escalation.
-          </Text>
-          <Text className="text-smoke font-general-sans-medium mb-2">
-            • Low Risk: For dogs that are generally safe but need ongoing care
-            or a stable adoption home.
-          </Text>
-        </View>
-        <MultiButton
-          data={["High", "Medium", "Low"]}
-          onSelect={(value) => handleChange("level", value)}
-          tag={(value) => handleChange("tag", value)}
-        />
-      </View>
-      <View className="mt-5">
         <Text className="text-[15px] font-general-sans-medium">Gender*</Text>
         <MultiButton
           data={["Male", "Female"]}
@@ -291,6 +308,35 @@ export default function AddNewAnim() {
           className="p-2 mt-1.5 bg-white rounded-md font-general-sans text-start align-top"
           onChangeText={(value) => handleChange("description", value)}
         />
+      </View>
+      <View className="mt-5">
+        <Text className="text-[15px] font-general-sans-medium">
+          Risk Assesment*
+        </Text>
+        <TouchableOpacity
+          className={`p-4 ${
+            error != null ? "bg-red-100" : riskLvl[risk]
+          } rounded-md mt-1.5`}
+          onPress={handleRiskAssesment}
+        >
+          {!risk && !loading && !error && (
+            <Text className="font-general-sans-medium self-center">
+              Assess Risk
+            </Text>
+          )}
+          {loading && <ActivityIndicator size="large" color="#0000ff" />}
+          {error && (
+            <Text className="text-red-600 self-center">{error} Try Again</Text>
+          )}
+          {risk && error == null && (
+            <View>
+              <Text className="font-general-sans-semibold">{risk}</Text>
+              <Text className="font-general-sans-medium mt-1">
+                {riskReasoning}
+              </Text>
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
       <TouchableOpacity
         className="p-4 bg-charcoal mt-3 rounded-xl mb-4"

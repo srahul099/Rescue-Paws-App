@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, StatusBar } from "react-native";
 import React, { useCallback } from "react";
 import * as WebBrowser from "expo-web-browser";
 import { useOAuth } from "@clerk/clerk-expo";
@@ -40,6 +40,7 @@ export default function LoginScreen() {
 
   return (
     <View className="h-full bg-login-bg">
+      <StatusBar backgroundColor="#01EDFA" barStyle={"dark-content"} />
       <Image
         source={require("./../../assets/images/login.jpg")}
         className="w-full h-[500] justify-center"
